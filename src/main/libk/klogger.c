@@ -42,7 +42,7 @@ void k_logger_write(const KLogLevel level, const char *filename, const u32 linen
     fflush(stdout);
 // #if ! defined(BKS_BUILD_RELEASE)
 //     // Print the stack trace
-//     if (level == BKS_LOG_LEVEL_FATAL) {
+//     if (level == K_LOG_LEVEL_FATAL) {
 //         const char *format = "%66s at %20s:%04d %s(%s)\n\033[1;30m";
 //
 //         fprintf(stdout, "\n");

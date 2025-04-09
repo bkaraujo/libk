@@ -7,6 +7,8 @@ void k_runtime_profiler_push(const char *name);
 void k_runtime_profiler_pop(const char *name);
 u64 k_runtime_profiler_elapsed(const char *name);
 
+#define K_RUNTIME_PROFILER_ELAPSED k_runtime_profiler_elapsed(__func__)
+
 #if ! defined(K_RUNTIME_FRAME_ARGUMENTS_SIZE)
 #   define K_RUNTIME_FRAME_ARGUMENTS_SIZE 1024
 #endif
