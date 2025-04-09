@@ -15,4 +15,19 @@ void k_memory_heap_free(void* block);
 void k_memory_heap_destroy(void* heap);
 #endif
 
+typedef enum {
+  K_MEMORY_ALLOCATOR_LINEAR,
+  K_MEMORY_ALLOCATOR_DYNAMIC
+} KAllocatorType;
+
+typedef struct {
+  KAllocatorType type;
+} KAllocator;
+
+KAllocator* k_memory_allocator_create(KAllocatorType type, u64 size);
+void* k_memory_allocator_alloc(KAllocator* allocator, u64 size, u8 tag);
+void k_memory_allocator_free(KAllocator* allocator, void* pointer);
+void k_memory_allocator_reset(KAllocator* allocator);
+void k_memory_allocator_destroy(KAllocator* allocator);
+
 #endif

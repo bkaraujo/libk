@@ -11,4 +11,5 @@ add_library(
         src/main/libk/klogger.c
         src/main/libk/kruntime.c
         src/main/libk/kmemory.c
+        src/main/libk/kallocator.c
 )

@@ -3,30 +3,32 @@
 typedef struct BKMemory {
     void *pointer;
     struct BKMemory *next;
-} BKMemory;
+} KMemory;
 
-static BKMemory head;
+static KMemory head;
 
 void* k_memory_alloc(const u64 size) {
     K_FRAME_PUSH_WITH("%ull", size)
     // =======================================================================
-    // Find the stop to create the BKMemory
+    // Find the stop to create the KMemory
     // =======================================================================
-    BKMemory *node = NULL;
+    KMemory *node = NULL;
     if (head.next == NULL) { node = &head; }
     else {
-        BKMemory *current = head.next;
+        KMemory *current = head.next;
         while (current->next != NULL) current = current->next;
         node = current;
     }
     // =======================================================================
     // Allocate the memory a record stack frame of the caller
     // =======================================================================
-    node->next = malloc(sizeof(BKMemory));
-    memset(node->next, 0, sizeof(BKMemory));
+    node->next = malloc(sizeof(KMemory));
+    if (node->next == NULL) KFATAL("Failed to allocate %llu bytes", sizeof(KMemory))
+    memset(node->next, 0, sizeof(KMemory));
 
     node->next->pointer = malloc(size);
     if (node->next->pointer == NULL) KFATAL("Failed to allocate %llu bytes", size)
+    memset(node->next->pointer, 0, size);
     // =======================================================================
     // Deliver the result
     // =======================================================================
@@ -40,14 +42,14 @@ void k_memory_free(void *block) {
     if (block == NULL) KFATAL("block is NULL")
     if (head.next == NULL) KFATAL("Unknown block 0x%p", block)
 
-    BKMemory *node = NULL;
+    KMemory *node = NULL;
     if (head.next->pointer == block) {
         node = head.next;
         head.next = node->next;
     } else {
-        BKMemory *s = head.next;
+        KMemory *s = head.next;
         while (s != NULL) {
-            BKMemory *current = s->next;
+            KMemory *current = s->next;
             if (current == NULL) break;
             if (current->pointer == block) {
                 s->next = current->next;
