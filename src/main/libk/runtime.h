@@ -7,6 +7,22 @@ void k_runtime_profiler_push(const char *name);
 void k_runtime_profiler_pop(const char *name);
 u64 k_runtime_profiler_elapsed(const char *name);
 
+#if ! defined(K_RUNTIME_FRAME_ARGUMENTS_SIZE)
+#   define K_RUNTIME_FRAME_ARGUMENTS_SIZE 1024
+#endif
+
+#if ! defined(K_FRAME_STRING_SIZE)
+#   define K_FRAME_STRING_SIZE 100
+#endif
+
+typedef struct {
+    u64 timestamp;
+    char filename[K_FRAME_STRING_SIZE];
+    char function[K_FRAME_STRING_SIZE];
+    char arguments[K_RUNTIME_FRAME_ARGUMENTS_SIZE];
+    u32 lineno;
+} KFrame;
+
 void k_runtime_frame_push(const char* filename, u64 lineno, const char* function, const char* arguments, ...);
 void k_runtime_frame_pop();
 

@@ -51,25 +51,10 @@ void k_runtime_profiler_pop(const char *name) {
     memset(&profile[index], 0, sizeof(TLProfile));
 }
 
-#if ! defined(K_RUNTIME_FRAME_ARGUMENTS_SIZE)
-#   define K_RUNTIME_FRAME_ARGUMENTS_SIZE 1024
-#endif
-
-#if ! defined(K_FRAME_STRING_SIZE)
-#   define K_FRAME_STRING_SIZE 100
-#endif
 
 #if ! defined(K_RUNTIME_FRAME_MAXIMUM)
 #   define K_RUNTIME_FRAME_MAXIMUM 10
 #endif
-
-typedef struct {
-    u64 timestamp;
-    char filename[K_FRAME_STRING_SIZE];
-    char function[K_FRAME_STRING_SIZE];
-    char arguments[K_RUNTIME_FRAME_ARGUMENTS_SIZE];
-    u32 lineno;
-} KFrame;
 
 static u8 frame_index = U8_MAX;
 static u8 frame_max_depth = U8_MAX;

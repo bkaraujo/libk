@@ -10,4 +10,5 @@ add_library(
         src/main/libk/time.c
         src/main/libk/logger.c
         src/main/libk/runtime.c
+        src/main/libk/memory.c
 )
